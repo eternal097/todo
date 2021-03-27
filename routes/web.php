@@ -11,6 +11,7 @@
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+//Homepage
+Route::get('/', 'TaskController@index');
+//Resource task controller
+Route::resource('task', 'TaskController');
