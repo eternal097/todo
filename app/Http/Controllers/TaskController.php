@@ -2,11 +2,20 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\AddTaskRequest;
+use App\Http\Requests\EditTaskRequest;
 use App\Models\Task;
-use Illuminate\Http\Request;
+
 
 class TaskController extends Controller
 {
+    protected $task;
+
+    public function __construct(Task $task)
+    {
+        $this->task = $task;
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -14,18 +23,9 @@ class TaskController extends Controller
      */
     public function index()
     {
-        $tasks = Task::all();
-        return view('todo-list', compact('tasks'));
-    }
+        $tasks = $this->task->simplePaginate(5);
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
+        return view('todo-list', compact('tasks'));
     }
 
     /**
@@ -34,53 +34,48 @@ class TaskController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(AddTaskRequest $request)
     {
-        //
-    }
+        $this->task->addTask($request);
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
+        return back();
     }
 
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $id
+     * @param  Collection $task
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(Task $task)
     {
-        //
+        return view('todo-edit', compact('task'));
     }
 
     /**
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param  Collection $task
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(EditTaskRequest $request, Task $task)
     {
-        //
+        $task->update($request->all());
+
+        return redirect()->route('main');
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param  Collection  $task
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Task $task)
     {
-        //
+        $task->delete();
+
+        return back();
     }
 }

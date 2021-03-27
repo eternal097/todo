@@ -12,6 +12,6 @@
 */
 
 //Homepage
-Route::get('/', 'TaskController@index');
+Route::get('/', 'TaskController@index')->name('main');
 //Resource task controller
 Route::resource('task', 'TaskController');
