@@ -51,7 +51,8 @@ class TaskController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function edit($id)
-    {   $task = $this->task->getUserTask($id);
+    {
+      $task = $this->task->getUserTask($id);
 
         return view('todo-edit', compact('task'));
     }
