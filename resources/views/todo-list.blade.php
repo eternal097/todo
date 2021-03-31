@@ -64,8 +64,7 @@
                                             </svg>
                                         </button>
                                     </form>
-                                    @endif
-                                    </form>
+                                @endif
                             </div>
                             <div class="col-1">
                                 <a href="{{ route('task.edit', $task->id) }}">

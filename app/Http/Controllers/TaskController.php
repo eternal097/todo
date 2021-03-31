@@ -4,12 +4,15 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\AddTaskRequest;
 use App\Http\Requests\EditTaskRequest;
+use Illuminate\Support\Facades\Auth;
 use App\Models\Task;
+use App\Models\User;
 
 
 class TaskController extends Controller
 {
     protected $task;
+    protected $user;
 
     public function __construct(Task $task)
     {
@@ -23,7 +26,7 @@ class TaskController extends Controller
      */
     public function index()
     {
-        $tasks = $this->task->simplePaginate(5);
+        $tasks = Auth::user()->tasks()->simplePaginate(5);
 
         return view('todo-list', compact('tasks'));
     }
@@ -44,11 +47,12 @@ class TaskController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  Collection $task
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
-    public function edit(Task $task)
-    {
+    public function edit($id)
+    {   $task = $this->task->getUserTask($id);
+
         return view('todo-edit', compact('task'));
     }
 
@@ -56,25 +60,25 @@ class TaskController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  Collection $task
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
-    public function update(EditTaskRequest $request, Task $task)
+    public function update(EditTaskRequest $request, $id)
     {
-        $task->update($request->all());
+        $this->task->getUserTask($id)->update($request->all());
 
-        return redirect()->route('main');
+        return redirect()->route('task.index');
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  Collection  $task
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Task $task)
+    public function destroy($id)
     {
-        $task->delete();
+        $this->task->getUserTask($id)->delete();
 
         return back();
     }

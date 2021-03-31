@@ -11,7 +11,11 @@
 |
 */
 
-//Homepage
-Route::get('/', 'TaskController@index')->name('main');
+//Mainpage
+Route::get('/',function () {
+    return view('main');
+});
 //Resource task controller
-Route::resource('task', 'TaskController');
+Route::resource('task', 'TaskController')->middleware('auth');
+//Authentication routes
+Auth::routes();
