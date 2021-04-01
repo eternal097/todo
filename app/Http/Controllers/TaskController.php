@@ -12,7 +12,6 @@ use App\Models\User;
 class TaskController extends Controller
 {
     protected $task;
-    protected $user;
 
     public function __construct(Task $task)
     {
