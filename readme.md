@@ -11,7 +11,6 @@ Todo list на фреймворке Laravel.
 - composer install;
 - composer update;
 - php artisan key:generate;
-- php artisan migrate --seed;
 
 ## Как запустить проект:
 

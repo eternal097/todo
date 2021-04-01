@@ -12,24 +12,6 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        $task_1 = Task::create([
-            'message' => 'Test test test',
-            'completed' => false,
-        ]);
-
-        $task_2 = Task::create([
-            'message' => 'Test test test',
-            'completed' => true,
-        ]);
-
-        $task_3 = Task::create([
-            'message' => 'Test test test',
-            'completed' => false,
-        ]);
-
-        $task_4 = Task::create([
-            'message' => 'Test test test',
-            'completed' => true,
-        ]);
+        // 
     }
 }
